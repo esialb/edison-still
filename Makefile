@@ -10,15 +10,17 @@ src/still.o
 
 OUT = still
 
+CPP = g++ -m32
+
 src/%.o: src/%.cpp
-	g++ -m32 -I"include" -c -o "$@" "$<"
+	$(CPP) -I"include" -c -o "$@" "$<"
 
 # All Target
-all: still
+all: $(OUT)
 
 # Tool invocations
 $(OUT): $(OBJS) $(USER_OBJS)
-	g++ -m32 -o $(OUT) $(OBJS) $(LIBS)
+	$(CPP) -o $(OUT) $(OBJS) $(LIBS)
 
 # Other Targets
 clean:
