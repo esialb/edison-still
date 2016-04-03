@@ -35,5 +35,12 @@ Useful as a physical security defense with the `--watchdog` option, which
 causes the edison to hard reboot and thus lose any sensitive information
 in its RAM.
 
+Requires a recent version of [Intel's MRAA library][mraa] for the SparkFun driver.
+Requires [Boost Program Options][boost_po] (`apt-get libboost_program_options`)
+to process command-line arguments.  Run it as the `root` user on your Edison
+or it will flagrantly fail to work.
+
 [9dof-driver]: https://github.com/sparkfun/SparkFun_9DOF_Block_for_Edison_CPP_Library
 [9dof-block]: https://www.sparkfun.com/products/13033
+[mraa]: https://github.com/intel-iot-devkit/mraa
+[boost_po]: http://www.boost.org/doc/libs/release/libs/program_options/
