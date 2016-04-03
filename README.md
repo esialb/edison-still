@@ -27,7 +27,7 @@ optionally run a command*
  */
 ```
 
-Uses driver from [SparkFun's 9DOF driver][9dof-driver] to monitor
+Uses driver code from [SparkFun's 9DOF driver][9dof-driver] to monitor
 an LSM9DS0 from a [SparkFun 9DOF block][9dof-block]'s accelerometer,
 waiting for movement.  If a command is supplied, runs it.  Otherwise returns.
 
