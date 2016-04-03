@@ -11,9 +11,9 @@ optionally run a command*
  * If command is not specified, exit instead.
  *
  * Specifying a command:
- * --: separate options to still from the command to run
- * command: the optional command to run
- * args...: additional arguments for the command
+ * --: separate still's options from the command to run
+ * command: the command to run
+ * args...: additional arguments to the command
  *
  * Configuring the trigger:
  * --buffer n: set the size of the accelerometer sample buffer to n
