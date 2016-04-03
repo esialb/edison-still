@@ -19,7 +19,7 @@ src/%.o: src/%.cpp
 all: $(OUT)
 
 # Tool invocations
-$(OUT): $(OBJS) $(USER_OBJS)
+$(OUT): $(OBJS)
 	$(CPP) -o $(OUT) $(OBJS) $(LIBS)
 
 # Other Targets
