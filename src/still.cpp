@@ -128,7 +128,8 @@ static struct xyz *xyz_add(struct xyz *p, struct xyz *q);
  */
 static struct xyz *xyz_subtract(struct xyz *p, struct xyz *q);
 /*
- * Write the mean coordinate values of the n-length array starting with *q into *p, returning p
+ * Write the mean coordinate values of the n-length array starting
+ * with *q into *p, returning p
  */
 static struct xyz *xyz_mean(struct xyz *p, struct xyz *q, int n);
 /*
@@ -207,8 +208,10 @@ int main(int argc, char** argv) {
 
 			xyz_subtract(p, &calibrated_mean); // renormalize the point from the calibrated mean
 
-			xyz_mean(&current_mean, xyz_buf, xyz_buf_size); // update current mean
-			float current_magnitude = xyz_magnitude(&current_mean); // current mean distance from calibrated mean
+			// update current mean
+			xyz_mean(&current_mean, xyz_buf, xyz_buf_size);
+			// current mean distance from calibrated mean
+			float current_magnitude = xyz_magnitude(&current_mean);
 
 			// trigger if accelerometer coordinates changed enough, or if there was an overflow
 			if(current_magnitude > threshold * calibrated_magnitude || imu->xDataOverflow())
@@ -227,11 +230,16 @@ static void parse_args(int argc, char **argv) { // parse args
 	po::options_description hidden;
 	po::options_description all;
 
-	string buffer_help = (boost::format("sample buffer size (%1%)") % xyz_buf_size).str();
-	string calibration_help = (boost::format("sample buffer initial discard ms (%1%)") % discard_time).str();
-	string threshold_help = (boost::format("sample buffer deviation threshold (%1%)") % threshold).str();
-	string watchdog_help = string("enable watchdog timer");
-	string watchdog_timeout_help = (boost::format("specify watchdog timer timeout (%1%)") % watchdog_timeout).str();
+	string buffer_help =
+			(boost::format("sample buffer size (%1%)") % xyz_buf_size).str();
+	string calibration_help =
+			(boost::format("sample buffer initial discard ms (%1%)") % discard_time).str();
+	string threshold_help =
+			(boost::format("sample buffer deviation threshold (%1%)") % threshold).str();
+	string watchdog_help =
+			string("enable watchdog timer");
+	string watchdog_timeout_help =
+			(boost::format("specify watchdog timer timeout (%1%)") % watchdog_timeout).str();
 
 	visible.add_options()
 			("help", "show this help")
@@ -260,11 +268,14 @@ static void parse_args(int argc, char **argv) { // parse args
 	po::store(parsed, vm);
 	po::notify(vm);
 
-	bool unrecognized = po::collect_unrecognized(parsed.options, po::exclude_positional).size() > 0;
+	bool unrecognized =
+			po::collect_unrecognized(parsed.options, po::exclude_positional).size() > 0;
 
 	if(vm.count("help") || unrecognized) {
 		cout << "usage: " << *argv << " [options] [[--] command [args...]]\n";
-		cout << "waits until the LSM9DS0 accelerometer detects movement, then optionally executes a command\n\n";
+		cout <<
+				"waits until the LSM9DS0 accelerometer detects movement, " <<
+				"then optionally executes a command\n\n";
 		cout << "options:\n";
 		cout << visible;
 		exit(unrecognized ? -1 : 0);
@@ -304,8 +315,11 @@ static void init_watchdog() { // set up watchdog timer device
 
 		int timeout = watchdog_timeout;
 		ioctl(watchdog_fd, WDIOC_SETTIMEOUT, &timeout);
-		if(timeout != watchdog_timeout)
-			cerr << "tried to set watchdog timeout to " << watchdog_timeout << " but actually set to " << timeout << "\n";
+		if(timeout != watchdog_timeout) {
+			cerr <<
+					"tried to set watchdog timeout to " << watchdog_timeout	<<
+					" but actually set to " << timeout << "\n";
+		}
 		watchdog_timeout = timeout;
 
 		ioctl(watchdog_fd, WDIOC_KEEPALIVE, 0);
