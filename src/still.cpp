@@ -246,7 +246,7 @@ static void parse_args(int argc, char **argv) { // parse args
 	string watchdog_timeout_help =
 			(boost::format("specify watchdog timer timeout (%1%)") % watchdog_timeout).str();
 	string sample_delay_help =
-			(boost::format("sample delay ms (%1)") % sample_delay_ms).str();
+			(boost::format("sample delay ms (%1%)") % sample_delay_ms).str();
 
 
 	visible.add_options()
