@@ -108,6 +108,11 @@ static int64_t timestamp_clockstart;
  * Has timestamp_ms() been called yet?
  */
 static bool timestamp_initialized = false;
+
+/*
+ * The delay between samples
+ */
+static int sample_delay_ms = 10;
 /*
  * Return a timestamp in milliseconds.  Returns zero from
  * the first invocation, and the time since zero for all
@@ -217,7 +222,7 @@ int main(int argc, char** argv) {
 			if(current_magnitude > threshold * calibrated_magnitude || imu->xDataOverflow())
 				trigger();
 		} else if(calibrated) // if already calibrated
-			usleep(10000); // sleep 10ms
+			usleep(sample_delay_ms * 1000); // sleep 10ms
 	}
 
 	return 0;
@@ -240,6 +245,9 @@ static void parse_args(int argc, char **argv) { // parse args
 			string("enable watchdog timer");
 	string watchdog_timeout_help =
 			(boost::format("specify watchdog timer timeout (%1%)") % watchdog_timeout).str();
+	string sample_delay_help =
+			(boost::format("sample delay ms (%1)") % sample_delay_ms).str();
+
 
 	visible.add_options()
 			("help", "show this help")
@@ -248,6 +256,7 @@ static void parse_args(int argc, char **argv) { // parse args
 			("threshold", po::value<float>(), threshold_help.c_str())
 			("watchdog", watchdog_help.c_str())
 			("timeout", po::value<int>(), watchdog_timeout_help.c_str())
+			("delay", po::value<int>(), sample_delay_help.c_str());
 			;
 	hidden.add_options()
 			("command", po::value(&command))
@@ -292,6 +301,8 @@ static void parse_args(int argc, char **argv) { // parse args
 		watchdog = true;
 		watchdog_timeout_help = vm["timeout"].as<int>();
 	}
+	if(vm.count("delay"))
+		sample_delay_ms = vm["delay"].as<int>();
 
 	if(command.size() == 0)
 		trigger_command = NULL;
